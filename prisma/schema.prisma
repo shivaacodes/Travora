@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  // To store information about the users of the platform, including their authentication details and profiles.
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  profile      Profile?
+  deals        Deal[] // Deals related to this user
+  transactions Transaction[] // Transactions related to this user, either as buyer or seller
+  messages     Message[] // Messages sent by this user
+}
+
+model Profile {
+  // To store detailed information about each user's profile (such as travel preferences, rating, etc.), which can be used for AI recommendations.
+  id          Int    @id @default(autoincrement())
+  userId      Int    @unique
+  bio         String
+  preferences Json
+  rating      Float  @default(0)
+  user        User   @relation(fields: [userId], references: [id])
+}
+
+model Deal {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Float
+  location    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  imageURL    String? // Field is optional
+  dealType    DealType // Enum to classify as flight, hotel, event, etc.
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+
+  // Transactions related to this deal
+  transactions Transaction[]
+  messages     Message[]
+}
+
+enum DealType {
+  FLIGHT
+  HOTEL
+  EVENT
+  OTHER
+}
+
+model Transaction {
+  // To keep track of transactions between users, including the status of the exchange and the transaction history.
+  id        Int               @id @default(autoincrement())
+  dealId    Int
+  buyerId   Int
+  sellerId  Int
+  price     Float
+  status    TransactionStatus
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+
+  deal   Deal  @relation(fields: [dealId], references: [id])
+  //buyer  User  @relation("BuyerTransaction", fields: [buyerId], references: [id])
+  //seller User  @relation("SellerTransaction", fields: [sellerId], references: [id])
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+model Message {
+  // To enable real-time communication between users (buyer and seller), keeping a record of the conversation.
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  userId    Int
+  dealId    Int
+
+  user User @relation(fields: [userId], references: [id])
+  deal Deal @relation(fields: [dealId], references: [id])
+}
