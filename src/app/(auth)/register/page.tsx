@@ -1,8 +1,6 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,31 +12,18 @@ import {
 } from "@/components/ui/form";
 import { useState } from "react";
 
-// Define the Zod validation schema
-const formSchema = z.object({
-  name: z.string().min(1, {
-    message: "Name is required",
-  }),
-  email: z.string().email("Invalid email format"),
-  username: z
-    .string()
-    .min(4, { message: "Username must be at least 4 characters" })
-    .max(15, { message: "Username must not exceed 15 characters" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
-});
-
-// Type for the form data
-type RegisterFormInput = z.infer<typeof formSchema>;
+type RegisterFormInput = {
+  name: string;
+  email: string;
+  username: string;
+  password: string;
+};
 
 export default function RegisterPage() {
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
-  const form = useForm<RegisterFormInput>({
-    resolver: zodResolver(formSchema),
-  });
+  const form = useForm<RegisterFormInput>();
 
   const onSubmit = async (data: RegisterFormInput) => {
     setLoading(true);
@@ -151,11 +136,10 @@ export default function RegisterPage() {
               )}
             />
 
-            {/* Submit button */}
             <Button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl mt-4"
+              className="w-full py-4 rounded-xl mt-4 text-lg"
             >
               {loading ? "Registering..." : "Register"}
             </Button>
