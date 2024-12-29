@@ -1,129 +1,178 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { useState } from "react";
 
-const UserRegistrationForm = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+// Define the Zod validation schema
+const formSchema = z.object({
+  name: z.string().min(1, {
+    message: "Name is required",
+  }),
+  email: z.string().email("Invalid email format"),
+  username: z
+    .string()
+    .min(4, { message: "Username must be at least 4 characters" })
+    .max(15, { message: "Username must not exceed 15 characters" }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters" }),
+});
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setMessage("");
+// Type for the form data
+type RegisterFormInput = z.infer<typeof formSchema>;
+
+export default function RegisterPage() {
+  const [message, setMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const form = useForm<RegisterFormInput>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const onSubmit = async (data: RegisterFormInput) => {
     setLoading(true);
-
-    const userData = { name, email, username, password };
+    setMessage("");
 
     try {
       const response = await fetch("/api/users/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
 
       const result = await response.json();
 
       if (response.status === 201) {
         setMessage("User registered successfully!");
-        setName("");
-        setEmail("");
-        setUsername("");
-        setPassword("");
       } else {
         setMessage(`Error: ${result.error || result.message}`);
       }
     } catch {
-      setMessage("Error: An unexpected error occurred");
+      setMessage("An unexpected error occurred");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">User Registration</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-          />
-        </div>
+    <div className="container mx-auto p-4 flex justify-center items-center h-screen">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            {/* Name field */}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <input
+                      placeholder="Your Name"
+                      {...field}
+                      className="input w-full py-3 px-4 rounded-xl border border-gray-300"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-          />
-        </div>
+            {/* Email field */}
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <input
+                      type="email"
+                      placeholder="you@example.com"
+                      {...field}
+                      className="input w-full py-3 px-4 rounded-xl border border-gray-300"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div>
-          <label htmlFor="username" className="block text-sm font-medium">
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-          />
-        </div>
+            {/* Username field */}
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <input
+                      placeholder="Username"
+                      {...field}
+                      className="input w-full py-3 px-4 rounded-xl border border-gray-300"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium">
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="mt-1 p-2 border border-gray-300 rounded w-full"
-          />
-        </div>
+            {/* Password field */}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <input
+                      type="password"
+                      placeholder="********"
+                      {...field}
+                      className="input w-full py-3 px-4 rounded-xl border border-gray-300"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <button
-          type="submit"
-          disabled={loading}
-          className={`w-full p-2 ${
-            loading ? "bg-gray-400" : "bg-blue-500"
-          } text-white rounded`}
-        >
-          {loading ? "Registering..." : "Register"}
-        </button>
-      </form>
+            {/* Submit button */}
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 rounded-xl mt-4"
+            >
+              {loading ? "Registering..." : "Register"}
+            </Button>
+          </form>
+        </Form>
 
-      {message && (
-        <p
-          className={`mt-4 text-center ${
-            message.includes("Error") ? "text-red-500" : "text-green-500"
-          }`}
-        >
-          {message}
-        </p>
-      )}
+        {/* Display messages */}
+        {message && (
+          <p
+            className={`mt-4 text-center ${
+              message.includes("Error") ? "text-red-500" : "text-green-500"
+            }`}
+          >
+            {message}
+          </p>
+        )}
+      </div>
     </div>
   );
-};
-
-export default UserRegistrationForm;
+}
