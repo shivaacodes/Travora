@@ -26,6 +26,7 @@ async function saveUserToDatabase(userData: {
         email: userData.email,
         username: userData.username,
         passwordHash: userData.passwordHash,
+        provider: "Credentials",
       },
     });
     return user;

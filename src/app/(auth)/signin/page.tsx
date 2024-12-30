@@ -1,13 +1,13 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import React from "react";
 
-export default function signInPage() {
+export default function Login() {
   return (
-    <div>
-      <h1>signInPage</h1>
-      <button onClick={() => signIn("google")}>SignIn with Google</button>
+    <div className="flex flex-col items-center justify-center h-screen space-y-4">
+      <h1>Login</h1>
+      <button onClick={() => signIn("credentials")}>Sign in with Email</button>
+      <button onClick={() => signIn("google")}>Sign in with Google</button>
     </div>
   );
 }

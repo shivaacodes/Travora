@@ -1,16 +1,9 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 type RegisterFormInput = {
   name: string;
@@ -22,141 +15,112 @@ type RegisterFormInput = {
 export default function RegisterPage() {
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-
   const form = useForm<RegisterFormInput>();
+  const router = useRouter();
 
   const onSubmit = async (data: RegisterFormInput) => {
     setLoading(true);
     setMessage("");
 
     try {
-      const response = await fetch("/api/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json();
+      const response = await axios.post("/api/users/register", data);
 
       if (response.status === 201) {
         setMessage("User registered successfully!");
+        // Redirect to login page after successful registration
+        setTimeout(() => {
+          router.push("/signin");
+        }, 2000);
       } else {
-        setMessage(`Error: ${result.error || result.message}`);
+        setMessage(`Error: ${response.data.error || response.data.message}`);
       }
-    } catch {
-      setMessage("An unexpected error occurred");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setMessage(
+          `An unexpected error occurred: ${
+            error.response?.data?.message || error.message
+          }`
+        );
+      } else {
+        setMessage("An unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="container mx-auto p-4 flex justify-center items-center h-screen">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            {/* Name field */}
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <input
-                      placeholder="Your Name"
-                      {...field}
-                      className="input w-full py-3 px-4 rounded-xl border border-gray-300"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    <div className="flex flex-col items-center justify-center h-screen space-y-4">
+      <h1 className="text-2xl font-bold">Register</h1>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4 w-full max-w-md p-6 border border-gray-300 rounded-lg shadow-md"
+      >
+        {/* Name field */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">Name</label>
+          <input
+            {...form.register("name")}
+            placeholder="Your Name"
+            className="w-full py-2 px-4 rounded-lg border border-gray-300"
+            required
+          />
+        </div>
 
-            {/* Email field */}
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <input
-                      type="email"
-                      placeholder="you@example.com"
-                      {...field}
-                      className="input w-full py-3 px-4 rounded-xl border border-gray-300"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {/* Email field */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">Email</label>
+          <input
+            type="email"
+            {...form.register("email")}
+            placeholder="you@example.com"
+            className="w-full py-2 px-4 rounded-lg border border-gray-300"
+            required
+          />
+        </div>
 
-            {/* Username field */}
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <input
-                      placeholder="Username"
-                      {...field}
-                      className="input w-full py-3 px-4 rounded-xl border border-gray-300"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {/* Username field */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">Username</label>
+          <input
+            {...form.register("username")}
+            placeholder="Username"
+            className="w-full py-2 px-4 rounded-lg border border-gray-300"
+            required
+          />
+        </div>
 
-            {/* Password field */}
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <input
-                      type="password"
-                      placeholder="********"
-                      {...field}
-                      className="input w-full py-3 px-4 rounded-xl border border-gray-300"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {/* Password field */}
+        <div>
+          <label className="block text-sm font-semibold mb-2">Password</label>
+          <input
+            type="password"
+            {...form.register("password")}
+            placeholder="********"
+            className="w-full py-2 px-4 rounded-lg border border-gray-300"
+            required
+          />
+        </div>
 
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full py-4 rounded-xl mt-4 text-lg"
-            >
-              {loading ? "Registering..." : "Register"}
-            </Button>
-          </form>
-        </Form>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full py-3 rounded-lg mt-4 text-white bg-blue-600 hover:bg-blue-700"
+        >
+          {loading ? "Registering..." : "Register"}
+        </button>
+      </form>
 
-        {/* Display messages */}
-        {message && (
-          <p
-            className={`mt-4 text-center ${
-              message.includes("Error") ? "text-red-500" : "text-green-500"
-            }`}
-          >
-            {message}
-          </p>
-        )}
-      </div>
+      {/* Display messages */}
+      {message && (
+        <p
+          className={`mt-4 text-center ${
+            message.includes("Error") ? "text-red-500" : "text-green-500"
+          }`}
+        >
+          {message}
+        </p>
+      )}
     </div>
   );
 }
