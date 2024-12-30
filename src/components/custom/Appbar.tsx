@@ -15,7 +15,7 @@ export function Appbar({ isSpectator = false }) {
         }}
         className="flex flex-col justify-center text-lg font-bold text-white hover:cursor-pointer"
       >
-        Trade Trail
+        Travora
       </div>
       <div className="flex items-center gap-x-4">
         {isSpectator && (

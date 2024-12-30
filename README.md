@@ -1,8 +1,8 @@
-# TradeTrail: AI-Powered Personalized Travel Marketplace
+# Travora: AI-Powered Personalized Travel Marketplace
 
 ## Overview
 
-TradeTrail is a platform where users can exchange or sell their unused travel packages, vouchers, or tickets (such as flight tickets, hotel stays, or event passes). The app incorporates AI to recommend deals based on the user's preferences, location, and travel history.
+Travora is a platform where users can exchange or sell their unused travel packages, vouchers, or tickets (such as flight tickets, hotel stays, or event passes).
 
 ---
 
@@ -16,15 +16,9 @@ TradeTrail is a platform where users can exchange or sell their unused travel pa
   - Ratings.
   - Current offers.
 
-### AI-Powered Recommendations
-
-- Integrated OpenAI API to suggest personalized deals based on:
-  - User preferences.
-  - Travel history.
-
 ### Real-Time Communication
 
-- Chat feature for buyers and sellers using WebSockets (e.g., `socket.io`).
+- Chat feature for buyers and sellers using WebSockets.
 
 ### Dynamic Routing & SEO
 
@@ -32,12 +26,6 @@ TradeTrail is a platform where users can exchange or sell their unused travel pa
   - Deals.
   - User profiles.
   - Locations.
-- Server-side rendering (SSR) for SEO-friendly content.
-
-### Secure Transactions with Blockchain
-
-- Blockchain integration (e.g., Solana) to ensure transaction authenticity.
-- Transparent transaction history in a ledger format.
 
 ### Location-Based Listings
 
@@ -46,28 +34,6 @@ TradeTrail is a platform where users can exchange or sell their unused travel pa
 ### Image Upload & Optimization
 
 - Allow users to upload images for their offers.
-- Optimize images using `next/image` for better performance.
-
-### Progressive Web App (PWA)
-
-- Enable offline usage and enhance mobile experience by turning the app into a PWA.
-
----
-
-## Concepts Covered
-
-- Dynamic Routing and API Routes.
-- Server-Side Rendering (SSR), Incremental Static Regeneration (ISR), and Client-Side Rendering (CSR).
-- User Authentication with NextAuth.
-- Database Integration with Supabase/Postgres for:
-  - User storage.
-  - Deal storage.
-- AI/ML Integration using external APIs (OpenAI) for personalized recommendations.
-- Blockchain integration for secure transaction handling.
-- WebSocket-based real-time communication.
-- Optimized SEO and performance enhancements using `next/head` and `next/image`.
-
----
 
 ## Tech Stack
 
@@ -83,22 +49,6 @@ TradeTrail is a platform where users can exchange or sell their unused travel pa
 ### Database
 
 - [Prisma](https://prisma.com/) / [Postgres](https://www.postgresql.org/)
-
-### Extras
-
-- [OpenAI API](https://platform.openai.com/)
-- Solidity
-- WebSocket library (e.g., `socket.io`)
-
----
-
-## Potential Challenges
-
-- AI model integration for personalized recommendations.
-- Blockchain transaction implementation and user interface.
-- Real-time chat synchronization using WebSockets.
-
----
 
 ## Installation & Setup
 
@@ -125,7 +75,6 @@ TradeTrail is a platform where users can exchange or sell their unused travel pa
    ```env
    NEXTAUTH_URL=<your-domain>
    DATABASE_URL=<your-database-url>
-   OPENAI_API_KEY=<your-openai-api-key>
    ```
 
 5. Start the development server:
