@@ -12,6 +12,7 @@ type RegisterFormInput = {
   password: string;
 };
 
+//Server-side
 export default function RegisterPage() {
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -48,65 +49,44 @@ export default function RegisterPage() {
       setLoading(false);
     }
   };
-
+  // Client-side
   return (
     <div className="flex flex-col items-center justify-center h-screen space-y-4">
-      <h1 className="text-2xl font-bold">Register</h1>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 w-full max-w-md p-6 border border-gray-300 rounded-lg shadow-md"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         {/* Name field */}
         <div>
-          <label className="block text-sm font-semibold mb-2">Name</label>
-          <input
-            {...form.register("name")}
-            placeholder="Your Name"
-            className="w-full py-2 px-4 rounded-lg border border-gray-300"
-            required
-          />
+          <label>Name</label>
+          <input {...form.register("name")} placeholder="Your Name" required />
         </div>
 
         {/* Email field */}
         <div>
-          <label className="block text-sm font-semibold mb-2">Email</label>
+          <label>Email</label>
           <input
             type="email"
             {...form.register("email")}
             placeholder="you@example.com"
-            className="w-full py-2 px-4 rounded-lg border border-gray-300"
             required
           />
         </div>
 
         {/* Username field */}
         <div>
-          <label className="block text-sm font-semibold mb-2">Username</label>
+          <label>Username</label>
           <input
             {...form.register("username")}
             placeholder="Username"
-            className="w-full py-2 px-4 rounded-lg border border-gray-300"
             required
           />
         </div>
 
         {/* Password field */}
         <div>
-          <label className="block text-sm font-semibold mb-2">Password</label>
-          <input
-            type="password"
-            {...form.register("password")}
-            placeholder="********"
-            className="w-full py-2 px-4 rounded-lg border border-gray-300"
-            required
-          />
+          <label>Password</label>
+          <input type="password" {...form.register("password")} required />
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-3 rounded-lg mt-4 text-white bg-blue-600 hover:bg-blue-700"
-        >
+        <button type="submit" disabled={loading}>
           {loading ? "Registering..." : "Register"}
         </button>
       </form>
