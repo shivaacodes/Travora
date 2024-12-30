@@ -1,12 +1,12 @@
-# Travora: AI-Powered Personalized Travel Marketplace
+# Travora: Personalized Travel Marketplace
 
-## Overview
+## Overview 🐦‍🔥
 
 Travora is a platform where users can exchange or sell their unused travel packages, vouchers, or tickets (such as flight tickets, hotel stays, or event passes).
 
 ---
 
-## Features
+## Features ⚡
 
 ### User Authentication & Profiles
 
@@ -35,7 +35,7 @@ Travora is a platform where users can exchange or sell their unused travel packa
 
 - Allow users to upload images for their offers.
 
-## Tech Stack
+## Tech Stack 🐍
 
 ### Frontend
 
@@ -55,34 +55,28 @@ Travora is a platform where users can exchange or sell their unused travel packa
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/TradeTrail.git
+   git clone https://github.com/your-username/Travora.git
    ```
 
-2. Navigate to the project directory:
-
-   ```bash
-   cd TradeTrail
-   ```
-
-3. Install dependencies:
+2. Install dependencies:
 
    ```bash
    npm install
    ```
 
-4. Set up environment variables in a `.env` file:
+3. Set up environment variables in a `.env` file:
 
    ```env
    NEXTAUTH_URL=<your-domain>
    DATABASE_URL=<your-database-url>
    ```
 
-5. Start the development server:
+4. Start the development server:
 
    ```bash
    npm run dev
    ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
 
 ---
