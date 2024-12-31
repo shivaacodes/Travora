@@ -5,7 +5,7 @@ import axios from "axios";
 import { useState } from "react";
 import SignupForm from "@/components/auth/signup";
 
-export default function RegisterPage() {
+export default function SignupPage() {
   const [message, setMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
