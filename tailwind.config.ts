@@ -11,6 +11,8 @@ export default {
     extend: {
       fontFamily: {
         urbanist: ["var(--font-urbanist)", "sans-serif"],
+        playwrite: ["var(--font-playwrite)", "urbanist"],
+        montserrat: ["var(--font-montserrat)", "urbanist"],
       },
       colors: {
         background: "hsl(var(--background))",
@@ -98,5 +100,5 @@ export default {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  //plugins: [require("tailwindcss-animate")],
 } satisfies Config;

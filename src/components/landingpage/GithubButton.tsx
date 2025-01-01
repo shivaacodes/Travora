@@ -7,7 +7,7 @@ import Link from "next/link";
 import NumberTicker from "../magicui/number-ticker";
 
 export function GithubButton() {
-  const [stars, setStars] = useState(66); //default value
+  const [stars, setStars] = useState(9); //default value
 
   useEffect(() => {
     const fetchStars = async () => {

@@ -14,7 +14,7 @@ export default function Footer() {
 
           <div className="items-center  w-full mt-5 sm:mt-0 sm:flex sm:justify-end sm:space-x-8">
             <p className="text-xl   font-urbanist text-gray-700 font-semibold">
-              For feature requests or to get in touch, please contact me
+              Got a feature in mind or feedback to share? Reach out!
             </p>
             <div className="w-full h-px  mt-8 mb-5 xl:w-0.5 xl:m-0 xl:h-6 bg-gray-800/50"></div>
             <div className="flex items-center justify-center space-x-4">

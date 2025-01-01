@@ -1,11 +1,29 @@
 import type { Metadata } from "next";
-import { Inter, Urbanist } from "next/font/google";
+import {
+  Inter,
+  Urbanist,
+  Montserrat_Alternates,
+  Playwrite_AU_SA,
+} from "next/font/google";
 import "./globals.css";
 
 // Configure fonts
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+});
+
+const playwriteFont = Playwrite_AU_SA({
+  weight: ["100", "200", "300", "400"],
+  display: "optional",
+  variable: "--font-playwrite",
+});
+
+const montserratFont = Montserrat_Alternates({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+  display: "optional",
+  variable: "--font-montserrat",
 });
 
 const urbanistFont = Urbanist({
@@ -15,7 +33,6 @@ const urbanistFont = Urbanist({
   variable: "--font-urbanist",
 });
 
-// Metadata for the document
 export const metadata: Metadata = {
   title: "Travora",
   description:
@@ -29,7 +46,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${urbanistFont.variable} ${inter.variable}`}>
+    <html
+      lang="en"
+      className={`${urbanistFont.variable} ${inter.variable} ${montserratFont.variable} ${playwriteFont.variable}`}
+    >
       <body className="antialiased">{children}</body>
     </html>
   );
