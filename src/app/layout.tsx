@@ -3,22 +3,25 @@ import {
   Inter,
   Urbanist,
   Montserrat_Alternates,
-  Playwrite_AU_SA,
+  Poppins,
 } from "next/font/google";
 import "./globals.css";
 
-// Configure fonts
+//Font 1
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 });
 
-const playwriteFont = Playwrite_AU_SA({
-  weight: ["100", "200", "300", "400"],
+//Font 2
+const poppinsFont = Poppins({
+  weight: ["400", "900", "700", "500"],
+  subsets: ["latin"],
   display: "optional",
-  variable: "--font-playwrite",
+  variable: "--font-poppins",
 });
 
+//Font 3
 const montserratFont = Montserrat_Alternates({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
@@ -26,6 +29,7 @@ const montserratFont = Montserrat_Alternates({
   variable: "--font-montserrat",
 });
 
+//Font 4
 const urbanistFont = Urbanist({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
@@ -39,18 +43,15 @@ export const metadata: Metadata = {
     "Discover, exchange, and sell travel deals effortlessly with Travora.",
 };
 
-// RootLayout component
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const fontVariables = `${urbanistFont.variable} ${inter.variable} ${montserratFont.variable} ${poppinsFont.variable}`;
   return (
-    <html
-      lang="en"
-      className={`${urbanistFont.variable} ${inter.variable} ${montserratFont.variable} ${playwriteFont.variable}`}
-    >
-      <body className="antialiased">{children}</body>
+    <html lang="en" className={fontVariables}>
+      <body className="antialiased ">{children}</body>
     </html>
   );
 }
