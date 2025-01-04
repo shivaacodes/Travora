@@ -1,7 +1,6 @@
-//Backend Validation using zod
 import { z } from "zod";
 
-//name, email, username, password
+// User schema validation
 export const userSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email format"),
@@ -18,15 +17,26 @@ export const userSchema = z.object({
     ),
 });
 
-// Define the type for the user input
-export type UserInput = {
-  name: string;
-  email: string;
-  username: string;
-  password: string;
-};
+// Deal schema validation
+export const dealSchema = z.object({
+  title: z.string().min(1, "Deal title is required"),
+  description: z.string().min(1, "Description is required"),
+  price: z.number().min(0.01, "Price must be a positive value"),
+  location: z.string().min(1, "Location is required"),
+  dealType: z.enum(["FLIGHT", "HOTEL", "EVENT", "OTHER"]),
+  imageURL: z.string().url().optional(),
+  userId: z.number().min(1, "User ID is required"),
+});
 
-// Validate the user input against the schema
+export type UserInput = z.infer<typeof userSchema>;
+export type DealInput = z.infer<typeof dealSchema>;
+
+// Validate user input
 export const validateUser = (userInput: UserInput) => {
   return userSchema.safeParse(userInput); // Return validation result
+};
+
+//Validate Deal Input
+export const validateDeal = (dealInput: DealInput) => {
+  return dealSchema.safeParse(dealInput); // Return validation result
 };

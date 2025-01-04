@@ -19,6 +19,7 @@ async function saveUserToDatabase(userData: {
 }) {
   try {
     const user = await prisma.user.create({
+      // create in db
       data: {
         name: userData.name,
         email: userData.email,
