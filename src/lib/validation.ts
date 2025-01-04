@@ -1,16 +1,14 @@
+//Backend Validation using zod
 import { z } from "zod";
 
 //name, email, username, password
 export const userSchema = z.object({
   name: z.string().min(1, "Name is required"),
-
-  email: z.string().email("Invalid email format"), //@xxx.com
-
+  email: z.string().email("Invalid email format"),
   username: z.string().min(1, "Username is required"),
-
   password: z
     .string()
-    .min(4, "Password must be at least 8 characters")
+    .min(6, "Password must be at least 6 characters")
     .regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
       {

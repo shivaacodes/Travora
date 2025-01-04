@@ -40,7 +40,7 @@ export default function Login() {
   };
 
   return (
-    <div className="relative h-screen w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
+    <div className="relative flex min-h-screen w-full items-center justify-center bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem] px-4">
       {/* Back to Homepage Link */}
       <Link
         href="/"
@@ -53,8 +53,9 @@ export default function Login() {
         Back to Homepage
       </Link>
 
-      {/* Login Form */}
-      <div className="flex h-full items-center justify-center px-4">
+      {/* Card and Text Container */}
+      <div className="flex flex-col items-center space-y-4">
+        {/* Login Form */}
         <Card className="max-w-2xl rounded-2xl font-urbanist">
           <CardHeader>
             <CardTitle className="text-2xl font-bold">Login</CardTitle>
@@ -80,6 +81,14 @@ export default function Login() {
             </form>
           </CardContent>
         </Card>
+
+        {/* Get Started Link */}
+        <p className="text-lg text-gray-700 font-urbanist">
+          New User?{" "}
+          <Link href="/getstarted" className="text-red-600 hover:underline">
+            Get Started
+          </Link>
+        </p>
       </div>
     </div>
   );

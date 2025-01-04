@@ -1,6 +1,5 @@
 "use client";
 
-import ErrorMessage from "@/components/ErrorMessage";
 import {
   Card,
   CardHeader,
@@ -15,41 +14,61 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 import { buttonVariants } from "@/components/ui/button";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ErrorMessage from "@/components/ErrorMessage";
+import axios from "axios";
 
-type FormData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-};
+const schema = z.object({
+  name: z.string().min(1, "Name is required"),
+  username: z.string().min(4, "Username must be at least 4 characters"),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
+
+type FormFields = z.infer<typeof schema>;
 
 export default function GetStarted() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormFields>({
+    resolver: zodResolver(schema),
+  });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
     console.log(data);
+    try {
+      const response = await axios.post("/api/users/signup", data); // Correct path here
+      console.log("Data saved successfully!", response.data);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          "Error saving data:",
+          error.response?.data || error.message
+        );
+      } else {
+        console.error("Unexpected error:", error);
+      }
+    }
   };
 
   return (
-    <div className="min-h-screen w-screen flex items-center justify-center font-urbanist relative">
-      <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]"></div>
+    <div className="relative flex flex-col items-center justify-center min-h-screen w-screen font-urbanist">
+      <div className="absolute inset-0 -z-10 bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]"></div>
 
-      {/* Back to Homepage Button */}
       <Link
         href="/"
         className={buttonVariants({
           variant: "outline",
-          className: "absolute top-5 right-5 py-2 px-4 flex items-center gap-2",
+          className: "absolute top-5 right-5 flex items-center gap-2 py-2 px-4",
         })}
       >
         <FaArrowLeft className="size-5" /> Back to Homepage
       </Link>
 
-      <Card className="max-w-sm mx-auto rounded-3xl">
+      <Card className="mx-auto max-w-sm rounded-3xl">
         <CardHeader>
           <CardTitle className="text-xl font-bold">
             You are almost finished!
@@ -64,29 +83,25 @@ export default function GetStarted() {
           >
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label>First Name</Label>
-                <Input
-                  {...register("firstName")}
-                  type="text"
-                  placeholder="Draco"
-                />
-                <ErrorMessage error={errors.firstName?.message} />
+                <Label>Name</Label>
+                <Input {...register("name")} type="text" placeholder="Draco" />
+                <ErrorMessage error={errors.name?.message} />
               </div>
               <div className="grid gap-2">
-                <Label>Last Name</Label>
+                <Label>Username</Label>
                 <Input
-                  {...register("lastName")}
+                  {...register("username")}
                   type="text"
-                  placeholder="Malfoy"
+                  placeholder="draco123"
                 />
-                <ErrorMessage error={errors.lastName?.message} />
+                <ErrorMessage error={errors.username?.message} />
               </div>
             </div>
             <div className="grid gap-2">
               <Label>Email</Label>
               <Input
                 {...register("email")}
-                type="text"
+                type="email"
                 placeholder="dracomalfoy@example.com"
               />
               <ErrorMessage error={errors.email?.message} />
@@ -100,10 +115,17 @@ export default function GetStarted() {
               />
               <ErrorMessage error={errors.password?.message} />
             </div>
-            <Button>Get Started</Button>
+            <Button type="submit">Get Started</Button>
           </form>
         </CardContent>
       </Card>
+
+      <p className="mt-4 text-lg text-gray-700">
+        Already have an account?{" "}
+        <Link href="/login" className="text-red-600 hover:underline">
+          Sign in
+        </Link>
+      </p>
     </div>
   );
 }

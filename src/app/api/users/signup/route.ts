@@ -1,18 +1,16 @@
-//API Route for User Registration
 import { NextRequest, NextResponse } from "next/server";
-import { validateUser } from "@/lib/validation";
+import { validateUser } from "@/lib/validation"; //Backend Validation
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-// Function to hash the password securely
+//Hashing the data before adding to database
 async function hashPassword(password: string): Promise<string> {
   const salt = await bcrypt.genSalt(10);
   return bcrypt.hash(password, salt);
 }
 
-// Function to save the user to the database
 async function saveUserToDatabase(userData: {
   name: string;
   email: string;
@@ -36,16 +34,13 @@ async function saveUserToDatabase(userData: {
   }
 }
 
-// Named export for POST method
 export async function POST(req: NextRequest) {
   const userInput = await req.json();
-
   const validationResult = validateUser(userInput);
 
   if (validationResult.success) {
     try {
       const hashedPassword = await hashPassword(validationResult.data.password);
-
       const user = await saveUserToDatabase({
         name: validationResult.data.name,
         email: validationResult.data.email,
@@ -58,17 +53,13 @@ export async function POST(req: NextRequest) {
         { status: 201 }
       );
     } catch (error) {
-      // Add more descriptive error handling for saving the user to the database
       console.error(error);
       return NextResponse.json(
-        {
-          error: "Error saving user to database",
-        },
+        { error: "Error saving user to database" },
         { status: 500 }
       );
     }
   } else {
-    // Log and return the validation error in a readable format
     const errorMessages = validationResult.error.errors
       .map((err) => err.message)
       .join(", ");
