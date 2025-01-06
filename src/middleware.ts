@@ -12,15 +12,16 @@ export default async function middleware(req: NextRequest) {
 
   if (
     !isAuthenticated &&
-    (pathSegments[1] == "home" || pathSegments[1] == "dashboard") // Unauthenticated user
+    pathSegments[1] == "dashboard" // Unauthenticated user
   ) {
     const loginPath = "/auth";
     const loginURL = new URL(loginPath, req.nextUrl.origin);
-    return NextResponse.redirect(loginURL.toString());
+    return NextResponse.redirect(loginURL.toString()); //redirect to login page
   }
   if (isAuthenticated && pathSegments[1] == "/auth") {
-    const newURL = new URL("/home", req.nextUrl.origin);
-    return NextResponse.redirect(newURL.toString());
+    //authenticated user
+    const newURL = new URL("/dashboard", req.nextUrl.origin);
+    return NextResponse.redirect(newURL.toString()); //redirect to user's dashboard
   }
   // Allow user to access their profile
   return NextResponse.next();
