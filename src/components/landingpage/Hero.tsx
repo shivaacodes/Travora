@@ -15,13 +15,13 @@ export default function Hero() {
           <GithubButton />
           <Link
             className="text-black border-2 border-black/80 px-6 py-1.5 sm:py-1.5 text-sm sm:text-base rounded-full"
-            href="/getstarted"
+            href="/auth/getstarted"
           >
             Sign up
           </Link>
           <Link
             className="text-black border-2 border-black/80 px-6 py-1.5 sm:py-1.5 text-sm sm:text-base rounded-full font-urbanist"
-            href="/login"
+            href="/auth/login"
           >
             Sign in
           </Link>

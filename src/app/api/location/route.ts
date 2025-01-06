@@ -1,1 +1,0 @@
-// Fetch loaction based offers

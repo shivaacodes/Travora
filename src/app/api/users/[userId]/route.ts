@@ -1,18 +1,21 @@
+//GET /api/users/[userId] → Fetch public data for a specific user.
+
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-// Helper function to fetch user by ID
+// Helper function to fetch user by ID from database
 const fetchUserById = async (id: number) => {
   return prisma.user.findUnique({
+    //unique id
     where: { id },
   });
 };
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } } //ts
 ) {
   const userId = parseInt(params.id, 10); // Convert id to number
 

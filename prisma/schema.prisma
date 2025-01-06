@@ -8,7 +8,6 @@ datasource db {
 }
 
 model User {
-  // To store information about the users of the platform, including their authentication details and profiles.
   id           Int           @id @default(autoincrement())
   email        String        @unique
   name         String
@@ -18,13 +17,12 @@ model User {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   profile      Profile?
-  deals        Deal[] // Deals related to this user
-  transactions Transaction[] // Transactions related to this user, either as buyer or seller
-  messages     Message[] // Messages sent by this user
+  deals        Deal[]
+  transactions Transaction[]
+  messages     Message[]
 }
 
 model Profile {
-  // To store detailed information about each user's profile (such as travel preferences, rating, etc.), which can be used for AI recommendations.
   id          Int    @id @default(autoincrement())
   userId      Int    @unique
   bio         String
@@ -34,19 +32,17 @@ model Profile {
 }
 
 model Deal {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
-  price       Float
-  location    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  imageURL    String? // Field is optional
-  dealType    DealType // Enum to classify as flight, hotel, event, etc.
-  userId      Int
-  user        User     @relation(fields: [userId], references: [id])
-
-  // Transactions related to this deal
+  id           Int           @id @default(autoincrement())
+  title        String
+  description  String
+  price        Float
+  location     String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  imageURL     String?
+  dealType     DealType
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id])
   transactions Transaction[]
   messages     Message[]
 }
@@ -59,7 +55,6 @@ enum DealType {
 }
 
 model Transaction {
-  // To keep track of transactions between users, including the status of the exchange and the transaction history.
   id        Int               @id @default(autoincrement())
   dealId    Int
   buyerId   Int
@@ -83,7 +78,6 @@ enum TransactionStatus {
 }
 
 model Message {
-  // To enable real-time communication between users (buyer and seller), keeping a record of the conversation.
   id        Int      @id @default(autoincrement())
   content   String
   createdAt DateTime @default(now())

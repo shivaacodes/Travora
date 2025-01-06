@@ -40,7 +40,7 @@ export default function GetStarted() {
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     console.log(data);
     try {
-      const response = await axios.post("/api/users/signup", data); // Correct path here
+      const response = await axios.post("/api/users/signup", data);
       console.log("Data saved successfully!", response.data);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -68,20 +68,22 @@ export default function GetStarted() {
         <FaArrowLeft className="size-5" /> Back to Homepage
       </Link>
 
-      <Card className="mx-auto max-w-sm rounded-3xl">
+      <Card className="mx-auto max-w-2xl p-4 rounded-3xl">
         <CardHeader>
-          <CardTitle className="text-xl font-bold">
+          <CardTitle className="text-3xl font-bold">
             You are almost finished!
           </CardTitle>
-          <CardDescription>Enter your details to get started.</CardDescription>
+          <CardDescription className="text-lg text-gray-600">
+            Enter your details to get started.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form
-            className="grid gap-4"
+            className="grid gap-6"
             onSubmit={handleSubmit(onSubmit)}
             noValidate
           >
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-6">
               <div className="grid gap-2">
                 <Label>Name</Label>
                 <Input {...register("name")} type="text" placeholder="Draco" />
@@ -120,9 +122,9 @@ export default function GetStarted() {
         </CardContent>
       </Card>
 
-      <p className="mt-4 text-lg text-gray-700">
+      <p className="mt-6 text-lg text-gray-700">
         Already have an account?{" "}
-        <Link href="/login" className="text-red-600 hover:underline">
+        <Link href="/auth/login" className="text-red-600 hover:underline">
           Sign in
         </Link>
       </p>
