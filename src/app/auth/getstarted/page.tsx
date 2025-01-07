@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Card,
   CardHeader,
@@ -37,11 +38,18 @@ export default function GetStarted() {
     resolver: zodResolver(schema),
   });
 
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
-    console.log(data);
     try {
       const response = await axios.post("/api/users/signup", data);
       console.log("Data saved successfully!", response.data);
+
+      // Display success message
+      setSuccessMessage("User registered successfully!");
+
+      // Optionally clear the form fields after success
+      // reset(); // Uncomment if using react-hook-form's `reset` function
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         console.error(
@@ -78,6 +86,11 @@ export default function GetStarted() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {successMessage && (
+            <div className="mb-4 p-3 text-green-700 bg-green-100 rounded-lg">
+              {successMessage}
+            </div>
+          )}
           <form
             className="grid gap-6"
             onSubmit={handleSubmit(onSubmit)}
