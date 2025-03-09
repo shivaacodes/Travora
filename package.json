@@ -8,6 +8,12 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
   "dependencies": {
     "@conform-to/zod": "^1.2.2",
     "@hookform/resolvers": "^3.9.1",
