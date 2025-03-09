@@ -9,6 +9,12 @@
     "lint": "next lint",
     "prepare": "husky"
   },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
   "dependencies": {
     "@conform-to/zod": "^1.2.2",
     "@hookform/resolvers": "^3.9.1",
