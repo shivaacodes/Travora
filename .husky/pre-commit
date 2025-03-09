@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 npx lint-staged
+=======
+npx lint-staged
+>>>>>>> 471ae9c4ce7d2e130b83acbebad6a1e9f51da199
