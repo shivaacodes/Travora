@@ -13,7 +13,6 @@ export default {
       fontFamily: {
         urbanist: ["var(--font-urbanist)", "sans-serif"],
         poppins: ["var(--font-poppins)", "urbanist"],
-        montserrat: ["var(--font-montserrat)", "urbanist"],
       },
       colors: {
         background: "hsl(var(--background))",

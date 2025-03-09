@@ -22,6 +22,10 @@ model User {
   messages     Message[]
 }
 
+model Account {
+  id Int @id @default(autoincrement())
+}
+
 model Profile {
   id          Int    @id @default(autoincrement())
   userId      Int    @unique

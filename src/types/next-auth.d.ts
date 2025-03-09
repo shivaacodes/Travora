@@ -6,9 +6,10 @@ declare module "next-auth" {
     email: string;
     username: string;
   }
+
   interface Session {
     user: {
-      id: string;
+      id: string | unknown; //remove type safety( not good)
       username: string;
       name?: string | null;
       email?: string | null;
